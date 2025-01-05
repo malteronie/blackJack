@@ -1,15 +1,14 @@
-import './App.css';
-import './Card.jsx'
-import CardList from './Card.jsx';
-function App() {
+import React from "react";
+import Hand from "./Hand.jsx";
+import "./App.css";
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>BlackJack</h1>
-        <CardList/>
-      </header>
+      <h1>Blackjack</h1>
+      <Hand />
     </div>
   );
-}
+};
 
 export default App;
