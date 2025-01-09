@@ -12,7 +12,7 @@ const Hand = ({ cards, getScore }) => {
           </p>
         ))}
       </div>
-      <div>Votre score : {getScore()}</div>
+      <div>Votre score : {getScore}</div>
     </div>
   );
 };

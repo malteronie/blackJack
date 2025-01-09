@@ -4,7 +4,7 @@ import Card from "./Card";
 const BotHand = ({ cards, getScore }) => {
   return (
     <div className="hand">
-      <h2>Your Hand</h2>
+      <h2>Bot Hand</h2>
       <div className="cards">
         {cards.map((card, index) => (
           <p style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}>
@@ -12,7 +12,7 @@ const BotHand = ({ cards, getScore }) => {
           </p>
         ))}
       </div>
-      <div>Votre score : {getScore()}</div>
+      <div>Score de l'adversaire: {getScore}</div>
     </div>
   );
 };
