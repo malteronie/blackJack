@@ -7,7 +7,7 @@ const BotHand = ({ cards, getScore }) => {
     <div className="hand">
       <h2>Bot Hand</h2>
       <div className="cards">
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <p style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}>
             <Card value={card.value} type={card.type} />
           </p>

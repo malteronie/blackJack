@@ -3,19 +3,18 @@ import Hand from "./Hand";
 import BotHand from "./BotHand";
 
 const Game = () => {
-    const types = ["♠", "♥", "♦", "♣"];
-    const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
-    const [cards, setCards] = useState([]);
-    const [isStart, setStart] = useState(false);
-    const [result, setResult] = useState("");
-    const [botHand, setBotHand] = useState([])
+  const types = ["♠", "♥", "♦", "♣"];
+  const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
+
+  const [cards, setCards] = useState([]);
+  const [isStart, setStart] = useState(false);
+  const [result, setResult] = useState("");
+  const [botHand, setBotHand] = useState([])
 
 
-    const botGame = () => {
-    setBotHand([getRandomCard(), getRandomCard()]);
-    
-    };
-
+  const botGame = () => {
+  setBotHand([getRandomCard(), getRandomCard()]);
+  };
 
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];
@@ -31,15 +30,14 @@ const Game = () => {
       if (card.value === "J" || card.value === "Q" || card.value === "K") {
           score += 10;
       } else if (card.value === "A") {
-          if (score > 10 ){
-              score += 1
-          } else {
-              nbrAs += 1
-              score += 11
-          }
-
+        if (score > 10 ){
+          score += 1
+        } else {
+          nbrAs += 1
+          score += 11
+        }
       } else {
-          score += card.value;
+        score += card.value;
       }
 
       while (score >21 && nbrAs > 0){
@@ -75,7 +73,7 @@ const Game = () => {
     botGame()
   };
 
-  const takeCard = () => {
+  const hit = () => {
     setCards([...cards, getRandomCard()]);
     if (getScore(botHand)<15){
       setBotHand([...botHand, getRandomCard()]);
@@ -94,7 +92,10 @@ const Game = () => {
       <div className="flex">
         <BotHand className="" cards={botHand} getScore={botScore} />
         {!isStart && <button onClick={startGame} className="button">Jouer</button>}
-        {isStart && <button onClick={() => takeCard()} className="button">Prendre une carte</button>}
+        <div className="action">
+        {isStart && <button onClick={() => hit()} className="button">Hit</button>}
+        {isStart && <button onClick={() => hit()} className="button">Stay</button>}
+        </div>
         <Hand cards={cards} getScore={playerScore} />
       </div><br />
       
