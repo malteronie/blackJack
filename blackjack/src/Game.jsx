@@ -80,9 +80,11 @@ const Game = () => {
   };
 
   const stay = () => {
-    if (playerScore > 21 || (playerScore < botScore < 21 )){
+      setBotHand([...botHand, getRandomCard()]);
+    
+    if (playerScore > 21 || (botScore <= 21 && playerScore < botScore  )){
       setResult("Dommage, tu as perdu !")
-    } else if ((playerScore===21 && botScore!==21) || (playerScore > botScore)){
+    } else if ((playerScore===21 && botScore!==21) || playerScore > botScore || botScore>21){
       setStart(false)
       setResult("Bravo, tu as gagné !!")
     } else if (playerScore === botScore || (playerScore > 21 && botScore > 21)){

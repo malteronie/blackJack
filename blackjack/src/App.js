@@ -6,7 +6,7 @@ const App = () => {
   return (
     <header className="App-header" style={{"font-family": "Apple Chancery, cursive" }}>
       <div className="App">
-        <h1 style={{"fontSize":"80px" }}>Blackjack</h1>
+        <h1 style={{"fontSize":"88px" }}>BlackJack</h1>
         <Game />
       </div>
     </header>
