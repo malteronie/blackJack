@@ -16,10 +16,17 @@ const Game = () => {
   setBotHand([getRandomCard(), getRandomCard()]);
   };
 
+  
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];
     const value = values[Math.floor(Math.random() * values.length)];
     return { value, type };
+  };
+  
+  const startGame = () => {
+    setStart(true);
+    setCards([getRandomCard(), getRandomCard()]);
+    botGame()
   };
 
   const getScore = (player) => {
@@ -48,10 +55,8 @@ const Game = () => {
     return score;
   }
 
-
   const botScore = getScore(botHand);
   const playerScore = getScore(cards);
-
 
   useEffect(() => {
     if (isStart) {
@@ -66,11 +71,6 @@ const Game = () => {
     }
   }, [playerScore, botScore, isStart]);
 
-  const startGame = () => {
-    setStart(true);
-    setCards([getRandomCard(), getRandomCard()]);
-    botGame()
-  };
 
   const hit = () => {
     setCards([...cards, getRandomCard()]);
@@ -80,9 +80,9 @@ const Game = () => {
   };
 
   const stay = () => {
-    if (playerScore > 21 || playerScore < botScore < 21 ){
+    if (playerScore > 21 || (playerScore < botScore < 21 )){
       setResult("Dommage, tu as perdu !")
-    }else if (playerScore===21 || (playerScore > botScore)){
+    } else if ((playerScore===21 && botScore!==21) || (playerScore > botScore)){
       setStart(false)
       setResult("Bravo, tu as gagné !!")
     } else if (playerScore === botScore || (playerScore > 21 && botScore > 21)){
@@ -91,7 +91,6 @@ const Game = () => {
     }
     setStart(false)
   }
-
 
   return (
     <div className="game">
