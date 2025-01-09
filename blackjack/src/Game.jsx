@@ -16,25 +16,26 @@ const Game = () => {
   };
 
   const getScore = () => {
-    var score = 0
-    cards.forEach(card => {
-      if (card.value==="J" || card.value==="Q" || card.value==="K"){
-        score = score+10
-      } else if (card.value==="A"){
-          if (score>10){
-            score=score+1
-          } else{
-            score=score+11
-          }
-      } else{
-        score = score+card.value
-      }
+    let score = 0;
+    cards.forEach((card) => {
+        if (card.value === "J" || card.value === "Q" || card.value === "K") {
+            score += 10;
+        } else if (card.value === "A") {
+            if (score > 10 ){
+                score += 1
+            } else {
+                score += 11
+            }
+        } else {
+            score += card.value;
+        }
 
-      
+        if (score > 21){
+            setStart(false)
+        }
     });
-    console.log(score)
-    return score
-  } 
+    return score;
+  };
 
   const startGame = () => {
     setStart(true);
@@ -42,17 +43,17 @@ const Game = () => {
   };
 
   const takeCard = () => {
-    setCards([ ...cards, getRandomCard])
-    
-  }
+    setCards([...cards, getRandomCard()]);
+  };
 
   return (
     <div className="game">
       {!isStart && <button onClick={startGame}>Jouer</button>}
       {isStart && <button onClick={takeCard}>Prendre une carte</button>}
       <Hand cards={cards} getScore={getScore} />
-      {result && <div>T'a gagné</div>}
-      {!result && <div>T'a perdu</div>}
+      {/* {isStart && ( */}
+        {/* <div>{result ? "T'as gagné !" : "T'as perdu !"}</div> */}
+      {/* )} */}
     </div>
   );
 };

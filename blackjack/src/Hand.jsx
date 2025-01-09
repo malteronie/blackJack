@@ -7,7 +7,10 @@ const Hand = ({ cards, getScore }) => {
       <h2>Your Hand</h2>
       <div className="cards">
         {cards.map((card, index) => (
-          <p style={{ color: card.type === "♠" ||"♣" ? "black" : "red" }}>
+          <p
+            key={index}
+            style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}
+          >
             <Card value={card.value} type={card.type} />
           </p>
         ))}
