@@ -4,9 +4,9 @@ import "./App.css";
 
 const App = () => {
   return (
-    <header className="App-header">
+    <header className="App-header" style={{"font-family": "Apple Chancery, cursive" }}>
       <div className="App">
-        <h1>Blackjack</h1>
+        <h1 style={{"fontSize":"80px" }}>Blackjack</h1>
         <Game />
       </div>
     </header>

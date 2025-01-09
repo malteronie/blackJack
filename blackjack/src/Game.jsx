@@ -7,12 +7,13 @@ const Game = () => {
     const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
     const [cards, setCards] = useState([]);
     const [isStart, setStart] = useState(false);
-    const [result, setResult] = useState(false);
+    const [result, setResult] = useState("");
     const [botHand, setBotHand] = useState([])
 
 
     const botGame = () => {
     setBotHand([getRandomCard(), getRandomCard()]);
+    
     };
 
 
@@ -58,12 +59,15 @@ const Game = () => {
     if (isStart) {
       if (playerScore > 21){
         setStart(false)
-      }else if (playerScore===21){
+        setResult("Dommage, tu as perdu !")
+      }else if (playerScore===21|| (botScore>21 && playerScore<21)){
         setStart(false)
-        setResult(true)
+        setResult("Bravo, tu as gagné !!")
+      } else if (playerScore === 21 === botScore){
+        setResult("T'as eu de la chance, mais le bot aussi, dommage !")
+      }
     }
-    }
-  }, [playerScore, isStart]);
+  }, [playerScore, botScore, isStart]);
 
   const startGame = () => {
     setStart(true);
@@ -73,6 +77,9 @@ const Game = () => {
 
   const takeCard = () => {
     setCards([...cards, getRandomCard()]);
+    if (getScore(botHand)<15){
+      setBotHand([...botHand, getRandomCard()]);
+    }
   };
 
 
@@ -81,13 +88,16 @@ const Game = () => {
 
   return (
     <div className="game">
-      <BotHand cards={botHand} getScore={botScore} />
-      {!isStart && <button onClick={startGame}>Jouer</button>}
-      {isStart && <button onClick={takeCard}>Prendre une carte</button>}
-      <Hand cards={cards} getScore={playerScore} />
-      {!isStart && (
-        <div>{result ? "T'as gagné !" : "T'as perdu !"}</div>
-      )}
+      {!isStart && <div>{result}</div>
+        
+      }
+      <div className="flex">
+        <BotHand className="" cards={botHand} getScore={botScore} />
+        {!isStart && <button onClick={startGame} className="button">Jouer</button>}
+        {isStart && <button onClick={() => takeCard()} className="button">Prendre une carte</button>}
+        <Hand cards={cards} getScore={playerScore} />
+      </div><br />
+      
     </div>
   );
 };

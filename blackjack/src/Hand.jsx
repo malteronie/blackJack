@@ -3,6 +3,7 @@ import Card from "./Card";
 
 const Hand = ({ cards, getScore }) => {
   return (
+    <div className="bot">
     <div className="hand">
       <h2>Your Hand</h2>
       <div className="cards">
@@ -13,6 +14,7 @@ const Hand = ({ cards, getScore }) => {
         ))}
       </div>
       <div>Votre score : {getScore}</div>
+    </div>
     </div>
   );
 };

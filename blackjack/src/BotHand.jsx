@@ -3,6 +3,7 @@ import Card from "./Card";
 
 const BotHand = ({ cards, getScore }) => {
   return (
+    <div className="bot">
     <div className="hand">
       <h2>Bot Hand</h2>
       <div className="cards">
@@ -13,6 +14,7 @@ const BotHand = ({ cards, getScore }) => {
         ))}
       </div>
       <div>Score de l'adversaire: {getScore}</div>
+    </div>
     </div>
   );
 };
