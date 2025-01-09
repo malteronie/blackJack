@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card";
 
-const Hand = ({ cards, getScore }) => {
+const BotHand = ({ cards, getScore }) => {
   return (
     <div className="hand">
       <h2>Your Hand</h2>
@@ -17,4 +17,4 @@ const Hand = ({ cards, getScore }) => {
   );
 };
 
-export default Hand;
+export default BotHand;

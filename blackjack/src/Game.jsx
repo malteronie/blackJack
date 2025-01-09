@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Hand from "./Hand";
+import BotHand from "./BotHand";
 
 const Game = () => {
   const types = ["♠", "♥", "♦", "♣"];
@@ -48,6 +49,8 @@ const Game = () => {
 
   return (
     <div className="game">
+      <BotHand cards={cards} getScore={getScore} />
+
       {!isStart && <button onClick={startGame}>Jouer</button>}
       {isStart && <button onClick={takeCard}>Prendre une carte</button>}
       <Hand cards={cards} getScore={getScore} />
