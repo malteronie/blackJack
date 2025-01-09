@@ -56,13 +56,12 @@ const Game = () => {
   useEffect(() => {
     if (isStart) {
       if (playerScore > 21){
+        if (botScore > 21){
+          setResult("Egalité")
+        } else {
+          setResult("Dommage, tu as perdu !")
+        }
         setStart(false)
-        setResult("Dommage, tu as perdu !")
-      }else if (playerScore===21|| (botScore>21 && playerScore<21)){
-        setStart(false)
-        setResult("Bravo, tu as gagné !!")
-      } else if (playerScore === 21 === botScore){
-        setResult("T'as eu de la chance, mais le bot aussi, dommage !")
       }
     }
   }, [playerScore, botScore, isStart]);
@@ -80,8 +79,18 @@ const Game = () => {
     }
   };
 
-
-
+  const stay = () => {
+    if (playerScore > 21 || playerScore < botScore < 21 ){
+      setResult("Dommage, tu as perdu !")
+    }else if (playerScore===21 || (playerScore > botScore)){
+      setStart(false)
+      setResult("Bravo, tu as gagné !!")
+    } else if (playerScore === botScore || (playerScore > 21 && botScore > 21)){
+      setResult("Egalité")
+      
+    }
+    setStart(false)
+  }
 
 
   return (
@@ -94,7 +103,7 @@ const Game = () => {
         {!isStart && <button onClick={startGame} className="button">Jouer</button>}
         <div className="action">
         {isStart && <button onClick={() => hit()} className="button">Hit</button>}
-        {isStart && <button onClick={() => hit()} className="button">Stay</button>}
+        {isStart && <button onClick={() => stay()} className="button">Stay</button>}
         </div>
         <Hand cards={cards} getScore={playerScore} />
       </div><br />
