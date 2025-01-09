@@ -1,13 +1,15 @@
 import React from "react";
-import Hand from "./Hand.jsx";
+import Game from "./Game.jsx";
 import "./App.css";
 
 const App = () => {
   return (
-    <div className="App">
-      <h1>Blackjack</h1>
-      <Hand />
-    </div>
+    <header className="App-header">
+      <div className="App">
+        <h1>Blackjack</h1>
+        <Game />
+      </div>
+    </header>
   );
 };
 

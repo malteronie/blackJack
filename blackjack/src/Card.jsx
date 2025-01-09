@@ -3,7 +3,7 @@ import React from 'react';
 const CardList = ({ value, type }) => {
     return (
       <div className="card">
-        {value} {type}
+        <center>{value} {type}</center>
       </div>
     );
   };
