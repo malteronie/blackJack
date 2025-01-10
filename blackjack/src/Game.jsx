@@ -3,21 +3,24 @@ import Hand from "./Hand"
 import BotHand from "./BotHand"
 
 const Game = () => {
-  const types = ["♠", "♥", "♦", "♣"]
+  const types = ["♠", "♥", "♦", "♣"]  //Variable pour valeur et type de carte
   const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
 
+  //Initialiser les variables utilisant useState
   const [cards, setCards] = useState([])
   const [isStart, setStart] = useState(false)
   const [result, setResult] = useState("")
   const [botHand, setBotHand] = useState([])
   const [botFinish, setBotFinish] = useState(false)
+  const [isSplited, setIsSplited] = useState(false)
 
 //botGame
   const botGame = () => {
-  setBotHand([getRandomCard(), getRandomCard()]);
-  setBotFinish(false)
+  setBotHand([getRandomCard(), getRandomCard()]);  //Ajoute les cartes à la main du joueur
+  setBotFinish(false) 
   };
 
+// Pour mode impossible
   // const getBotCard = (score) => {
   //   const type = types[Math.floor(Math.random() * types.length)];
   //   if (score===1){
@@ -31,33 +34,36 @@ const Game = () => {
 
 //getRandomCard
   const getRandomCard = () => {
-    const type = types[Math.floor(Math.random() * types.length)];
-    const value = values[Math.floor(Math.random() * values.length)];
-    return { value, type };
+    const type = types[Math.floor(Math.random() * types.length)];  //Tire un type de carte au hasard
+    const value = values[Math.floor(Math.random() * values.length)]; //Une valeur de carte au hasard
+    return { value, type }; //Retourne les props de la carte
   };
 
 //startGame 
   const startGame = () => {
-    setStart(true);
-    setCards([getRandomCard(), getRandomCard()]);
+    setStart(true);   //La game a commencé
+    setCards([getRandomCard(), getRandomCard()]); //Ajoute les cartes
+    if (cards[1].value===cards[1].value){
+      setIsSplited(true)
+    }
     botGame()
   };
 
 //hit
   const hit = () => {
-    if (botFinish===true){
-      setCards([...cards, getRandomCard()]);
+    if (botFinish===true){   //Si le bot a fini de jouer
+      setCards([...cards, getRandomCard()]);  //Ajoute une carte a la main du  joueur
     }
   };
 
 //stay
   const stay = () => {
-    if (botFinish===true){
+    if (botFinish===true){  //Si bot a fini de jouer
     
-      const finalPlayerScore = getScore(cards);
+      const finalPlayerScore = getScore(cards); //Calculer le score final du joueur et du bot
       const finalBotScore = getScore(botHand);
     
-      if (finalPlayerScore > 21 && finalBotScore > 21) {
+      if (finalPlayerScore > 21 && finalBotScore > 21) {   //Conditions de victoire ou défaite
         setResult("Égalité, vous avez tous les deux dépassé !");
       } else if (finalPlayerScore > 21) {
         setResult("Dommage, tu as perdu !");
@@ -70,36 +76,41 @@ const Game = () => {
       } else {
         setResult("Égalité !");
       }
-      setStart(false)
+      setStart(false)  //Statut du jeu en non lancé
       
     }
   }
 
+//split
+  const split = () => {
+
+  }
+
 //getScore
   const getScore = (player) => {
-    let score = 0;
+    let score = 0;    //Initialise les variables score et nbrAs
     let nbrAs=0;
 
-    player.forEach((card) => {
-      if (card.value === "J" || card.value === "Q" || card.value === "K") {
-          score += 10;
-      } else if (card.value === "A") {
-        if (score > 10 ){
-          score += 1
-        } else {
-          nbrAs += 1
-          score += 11
+    player.forEach((card) => {   //Pour chaque carte
+      if (card.value === "J" || card.value === "Q" || card.value === "K") {  //Si le joueur a une tête
+          score += 10;            //Ajoute 10 au score
+      } else if (card.value === "A") {        //Si la carte est un As
+        if (score > 10 ){       //Si le score est supérieur a 10 
+          score += 1            // l'As vaut 1
+        } else {              //Sinon
+          nbrAs += 1            //Le nombre d'as valant 11 augmente
+          score += 11           //Ajoute 11 au score
         }
-      } else {
-        score += card.value;
+      } else {      //Si la carte n'est pas une tête
+        score += card.value;  //Ajoute la valeur de la carte au score
       }
 
-      while (score >21 && nbrAs > 0){
-        nbrAs--
-        score -=10
+      while (score >21 && nbrAs > 0){     //Tant que le score est >21 et que le nbr d'As valant 11 est >1
+        nbrAs--         //Reduire le nbr d'As a 11
+        score -=10      //Reduire le score de 10
       }
     });
-    return score;
+    return score;   //Retourner le score
   }
 
 //const Score
@@ -122,20 +133,20 @@ const Game = () => {
 // }, [botScore, botHand, isStart])
 
   useEffect (() => {     //mode soft
-    if (getScore(botHand)<15 && isStart){
+    if (getScore(botHand)<15 && isStart){   //Si le bot a - de 15
       setTimeout(() => {
-        setBotHand([...botHand, getRandomCard()]);
+        setBotHand([...botHand, getRandomCard()]); //lui donner une carte au bout d'1 seconde
       }, 1000);
     
     } else {
-      setBotFinish(true)
+      setBotFinish(true)   //s'il a plus de 15 son tour se termine
     }
-  }, [botScore, botHand, isStart])
+  }, [botScore, botHand, isStart])   //dependance pr useEffect
 
   useEffect(() => {
-    if (isStart) {
-      if (playerScore > 21){
-        stay()
+    if (isStart) {//si la game est lancée
+      if (playerScore > 21){   //et que le joueur dépasse 21
+        stay()  //le jeu s'arrête 
       }
     }
   }, [playerScore, botScore, isStart]);
@@ -147,7 +158,8 @@ const Game = () => {
       {!isStart && <div>{result}</div>}
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
       {isStart && <button onClick={() => hit()} className="button">Hit</button>}
-        {isStart && <button onClick={() => stay()} className="button">Stay</button>}
+      {isStart && <button onClick={() => stay()} className="button">Stay</button>}
+      {isSplited && <button onClick={() => split()} className="button">Split</button>}
       <div className="flex">
         <BotHand className="" cards={botHand} getScore={botScore} />
         <div className="action">
@@ -162,3 +174,8 @@ const Game = () => {
 };
 
 export default Game;
+
+
+//split
+//mise
+//cacher la main du bot
