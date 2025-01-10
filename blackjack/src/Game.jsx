@@ -1,19 +1,24 @@
-import React, { useState,useEffect } from "react";
-import Hand from "./Hand";
-import BotHand from "./BotHand";
+import React, { useState,useEffect } from "react"
+import Hand from "./Hand"
+import BotHand from "./BotHand"
 
 const Game = () => {
-  const types = ["♠", "♥", "♦", "♣"];
-  const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
+  const types = ["♠", "♥", "♦", "♣"]
+  const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
 
-  const [cards, setCards] = useState([]);
-  const [isStart, setStart] = useState(false);
-  const [result, setResult] = useState("");
+  const [cards, setCards] = useState([])
+  const [isStart, setStart] = useState(false)
+  const [result, setResult] = useState("")
   const [botHand, setBotHand] = useState([])
 
 
   const botGame = () => {
   setBotHand([getRandomCard(), getRandomCard()]);
+    if (botScore<15){
+      setTimeout(() => {
+        setBotHand([...botHand, getRandomCard()]);
+      }, 1000)
+    }
   };
 
   
@@ -61,36 +66,45 @@ const Game = () => {
   useEffect(() => {
     if (isStart) {
       if (playerScore > 21){
-        if (botScore > 21){
-          setResult("Egalité")
-        } else {
-          setResult("Dommage, tu as perdu !")
-        }
-        setStart(false)
+        stay()
       }
     }
   }, [playerScore, botScore, isStart]);
 
 
+useEffect (() => {
+  
+  if (getScore(botHand)<15){
+    setTimeout(() => {
+      setBotHand([...botHand, getRandomCard()]);
+    }, 1000);
+    
+  }
+}, [botScore, botHand])
+
   const hit = () => {
     setCards([...cards, getRandomCard()]);
-    if (getScore(botHand)<15){
-      setBotHand([...botHand, getRandomCard()]);
-    }
   };
 
   const stay = () => {
-      setBotHand([...botHand, getRandomCard()]);
     
-    if (playerScore > 21 || (botScore <= 21 && playerScore < botScore  )){
-      setResult("Dommage, tu as perdu !")
-    } else if ((playerScore===21 && botScore!==21) || playerScore > botScore || botScore>21){
-      setStart(false)
-      setResult("Bravo, tu as gagné !!")
-    } else if (playerScore === botScore || (playerScore > 21 && botScore > 21)){
-      setResult("Egalité")
-      
-    }
+      const finalPlayerScore = getScore(cards);
+      const finalBotScore = getScore(botHand);
+    
+      // Vérification stricte des résultats
+      if (finalPlayerScore > 21 && finalBotScore > 21) {
+        setResult("Égalité, vous avez tous les deux dépassé !");
+      } else if (finalPlayerScore > 21) {
+        setResult("Dommage, tu as perdu !");
+      } else if (finalBotScore > 21) {
+        setResult("Bravo, tu as gagné !!");
+      } else if (finalPlayerScore > finalBotScore) {
+        setResult("Bravo, tu as gagné !!");
+      } else if (finalPlayerScore < finalBotScore) {
+        setResult("Dommage, tu as perdu !");
+      } else {
+        setResult("Égalité !");
+      }
     setStart(false)
   }
 
