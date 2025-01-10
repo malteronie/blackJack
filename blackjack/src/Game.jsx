@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react"
+import React, { useState,useEffect} from "react"
 import Hand from "./Hand"
 import BotHand from "./BotHand"
 
@@ -10,30 +10,60 @@ const Game = () => {
   const [isStart, setStart] = useState(false)
   const [result, setResult] = useState("")
   const [botHand, setBotHand] = useState([])
+  const [botFinish, setBotFinish] = useState(false)
 
-
+//botGame
   const botGame = () => {
   setBotHand([getRandomCard(), getRandomCard()]);
-    if (botScore<15){
-      setTimeout(() => {
-        setBotHand([...botHand, getRandomCard()]);
-      }, 1000)
-    }
+  setBotFinish(false)
   };
 
-  
+//getRandomCard
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];
     const value = values[Math.floor(Math.random() * values.length)];
     return { value, type };
   };
-  
+
+//startGame 
   const startGame = () => {
     setStart(true);
     setCards([getRandomCard(), getRandomCard()]);
     botGame()
   };
 
+//hit
+  const hit = () => {
+    setCards([...cards, getRandomCard()]);
+  };
+
+//stay
+  const stay = () => {
+    if (botFinish===true){
+    
+      const finalPlayerScore = getScore(cards);
+      const finalBotScore = getScore(botHand);
+    
+      // Vérification stricte des résultats
+      if (finalPlayerScore > 21 && finalBotScore > 21) {
+        setResult("Égalité, vous avez tous les deux dépassé !");
+      } else if (finalPlayerScore > 21) {
+        setResult("Dommage, tu as perdu !");
+      } else if (finalBotScore > 21) {
+        setResult("Bravo, tu as gagné !!");
+      } else if (finalPlayerScore > finalBotScore) {
+        setResult("Bravo, tu as gagné !!");
+      } else if (finalPlayerScore < finalBotScore) {
+        setResult("Dommage, tu as perdu !");
+      } else {
+        setResult("Égalité !");
+      }
+      setStart(false)
+      
+    }
+  }
+
+//getScore
   const getScore = (player) => {
     let score = 0;
     let nbrAs=0;
@@ -60,8 +90,22 @@ const Game = () => {
     return score;
   }
 
+//const Score
   const botScore = getScore(botHand);
   const playerScore = getScore(cards);
+
+
+//useEffect
+  useEffect (() => {
+    if (getScore(botHand)<15){
+      setTimeout(() => {
+        setBotHand([...botHand, getRandomCard()]);
+      }, 1000);
+    
+    } else {
+      setBotFinish(true)
+    }
+  }, [botScore, botHand])
 
   useEffect(() => {
     if (isStart) {
@@ -72,42 +116,7 @@ const Game = () => {
   }, [playerScore, botScore, isStart]);
 
 
-useEffect (() => {
-  
-  if (getScore(botHand)<15){
-    setTimeout(() => {
-      setBotHand([...botHand, getRandomCard()]);
-    }, 1000);
-    
-  }
-}, [botScore, botHand])
-
-  const hit = () => {
-    setCards([...cards, getRandomCard()]);
-  };
-
-  const stay = () => {
-    
-      const finalPlayerScore = getScore(cards);
-      const finalBotScore = getScore(botHand);
-    
-      // Vérification stricte des résultats
-      if (finalPlayerScore > 21 && finalBotScore > 21) {
-        setResult("Égalité, vous avez tous les deux dépassé !");
-      } else if (finalPlayerScore > 21) {
-        setResult("Dommage, tu as perdu !");
-      } else if (finalBotScore > 21) {
-        setResult("Bravo, tu as gagné !!");
-      } else if (finalPlayerScore > finalBotScore) {
-        setResult("Bravo, tu as gagné !!");
-      } else if (finalPlayerScore < finalBotScore) {
-        setResult("Dommage, tu as perdu !");
-      } else {
-        setResult("Égalité !");
-      }
-    setStart(false)
-  }
-
+//return
   return (
     <div className="game">
       {!isStart && <div>{result}</div>
