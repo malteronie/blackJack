@@ -18,6 +18,17 @@ const Game = () => {
   setBotFinish(false)
   };
 
+  // const getBotCard = (score) => {
+  //   const type = types[Math.floor(Math.random() * types.length)];
+  //   if (score===1){
+  //     const value = "A";
+  //     return { value, type }
+  //   } else {
+  //     const value = score;
+  //     return { value, type }
+  //   }
+  // };
+
 //getRandomCard
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];
@@ -34,7 +45,9 @@ const Game = () => {
 
 //hit
   const hit = () => {
-    setCards([...cards, getRandomCard()]);
+    if (botFinish===true){
+      setCards([...cards, getRandomCard()]);
+    }
   };
 
 //stay
@@ -95,7 +108,20 @@ const Game = () => {
 
 
 //useEffect
-  useEffect (() => {
+
+// useEffect (() => {   //mode impossible
+//   if (getScore(botHand)<21 && isStart){
+//     const manque = 21 - getScore(botHand)
+//     setTimeout(() => {
+//       setBotHand([...botHand, getBotCard(manque)]);
+//     }, 1000);
+  
+//   } else {
+//     setBotFinish(true)
+//   }
+// }, [botScore, botHand, isStart])
+
+  useEffect (() => {     //mode soft
     if (getScore(botHand)<15 && isStart){
       setTimeout(() => {
         setBotHand([...botHand, getRandomCard()]);
