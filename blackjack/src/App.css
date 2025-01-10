@@ -47,8 +47,8 @@
   margin: 5px;
   width: 50px;
   text-align: center;
-  width: 63px;
-  height: 88px;
+  width: 126px;
+  height: 176px;
 }
 
 .hand {
@@ -69,7 +69,6 @@
 .button{
   width: 110px;
   height: 50px;
-  margin-top: 20%;
 }
 
 .bot{
@@ -80,4 +79,9 @@
   margin-top: 20%;
   display: flex;
   flex-direction: column;
+}
+
+.text{
+  margin-top: 50%;
+  font-size: 50px;
 }

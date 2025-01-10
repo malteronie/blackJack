@@ -44,7 +44,6 @@ const Game = () => {
       const finalPlayerScore = getScore(cards);
       const finalBotScore = getScore(botHand);
     
-      // Vérification stricte des résultats
       if (finalPlayerScore > 21 && finalBotScore > 21) {
         setResult("Égalité, vous avez tous les deux dépassé !");
       } else if (finalPlayerScore > 21) {
@@ -97,7 +96,7 @@ const Game = () => {
 
 //useEffect
   useEffect (() => {
-    if (getScore(botHand)<15){
+    if (getScore(botHand)<15 && isStart){
       setTimeout(() => {
         setBotHand([...botHand, getRandomCard()]);
       }, 1000);
@@ -105,7 +104,7 @@ const Game = () => {
     } else {
       setBotFinish(true)
     }
-  }, [botScore, botHand])
+  }, [botScore, botHand, isStart])
 
   useEffect(() => {
     if (isStart) {
@@ -119,17 +118,17 @@ const Game = () => {
 //return
   return (
     <div className="game">
-      {!isStart && <div>{result}</div>
-        
-      }
+      {!isStart && <div>{result}</div>}
+      {!isStart && <button onClick={startGame} className="button">Jouer</button>}
+      {isStart && <button onClick={() => hit()} className="button">Hit</button>}
+        {isStart && <button onClick={() => stay()} className="button">Stay</button>}
       <div className="flex">
         <BotHand className="" cards={botHand} getScore={botScore} />
-        {!isStart && <button onClick={startGame} className="button">Jouer</button>}
         <div className="action">
-        {isStart && <button onClick={() => hit()} className="button">Hit</button>}
-        {isStart && <button onClick={() => stay()} className="button">Stay</button>}
+        
         </div>
-        <Hand cards={cards} getScore={playerScore} />
+        <Hand cards={cards} getScore={playerScore} /><br />
+
       </div><br />
       
     </div>
