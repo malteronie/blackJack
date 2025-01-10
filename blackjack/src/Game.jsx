@@ -43,9 +43,8 @@ const Game = () => {
   const startGame = () => {
     setStart(true);   //La game a commencé
     setCards([getRandomCard(), getRandomCard()]); //Ajoute les cartes
-    if (cards[1].value===cards[1].value){
-      setIsSplited(true)
-    }
+    console.log(cards)
+    
     botGame()
   };
 
@@ -77,13 +76,14 @@ const Game = () => {
         setResult("Égalité !");
       }
       setStart(false)  //Statut du jeu en non lancé
-      
+      setIsSplited(false)
     }
   }
 
 //split
   const split = () => {
 
+    setIsSplited(false)
   }
 
 //getScore
@@ -92,13 +92,13 @@ const Game = () => {
     let nbrAs=0;
 
     player.forEach((card) => {   //Pour chaque carte
-      if (card.value === "J" || card.value === "Q" || card.value === "K") {  //Si le joueur a une tête
+      if (card.value === "J" || card.value === "Q" || card.value === "K") {  //Si la carte est une tête
           score += 10;            //Ajoute 10 au score
       } else if (card.value === "A") {        //Si la carte est un As
-        if (score > 10 ){       //Si le score est supérieur a 10 
+        if (score > 10 ){       //Si le score est supérieur à 10 
           score += 1            // l'As vaut 1
         } else {              //Sinon
-          nbrAs += 1            //Le nombre d'as valant 11 augmente
+          nbrAs += 1            //Le nombre d'As valant 11 augmente
           score += 11           //Ajoute 11 au score
         }
       } else {      //Si la carte n'est pas une tête
@@ -106,8 +106,8 @@ const Game = () => {
       }
 
       while (score >21 && nbrAs > 0){     //Tant que le score est >21 et que le nbr d'As valant 11 est >1
-        nbrAs--         //Reduire le nbr d'As a 11
-        score -=10      //Reduire le score de 10
+        nbrAs--         //Réduire le nbr d'As valant 11 de 1
+        score -=10      //Réduire le score de 10
       }
     });
     return score;   //Retourner le score
@@ -132,21 +132,21 @@ const Game = () => {
 //   }
 // }, [botScore, botHand, isStart])
 
-  useEffect (() => {     //mode soft
+  useEffect (() => {     //Mode soft
     if (getScore(botHand)<15 && isStart){   //Si le bot a - de 15
       setTimeout(() => {
-        setBotHand([...botHand, getRandomCard()]); //lui donner une carte au bout d'1 seconde
+        setBotHand([...botHand, getRandomCard()]); //Lui donner une carte au bout d'1 seconde
       }, 1000);
     
     } else {
-      setBotFinish(true)   //s'il a plus de 15 son tour se termine
+      setBotFinish(true)   //S'il a plus de 15 son tour se termine
     }
-  }, [botScore, botHand, isStart])   //dependance pr useEffect
+  }, [botScore, botHand, isStart])   //Dépendance pr useEffect
 
   useEffect(() => {
-    if (isStart) {//si la game est lancée
-      if (playerScore > 21){   //et que le joueur dépasse 21
-        stay()  //le jeu s'arrête 
+    if (isStart) {      //Si la game est lancée
+      if (playerScore > 21){   //Et que le joueur dépasse 21
+        stay()  //Appel de la fonction stay 
       }
     }
   }, [playerScore, botScore, isStart]);

@@ -8,9 +8,9 @@ const Hand = ({ cards, getScore }) => {
       <h2>Your Hand</h2>
       <div className="cards">
         {cards.map((card) => (
-          <p style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}>
+          <div style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}>
             <Card value={card.value} type={card.type} />
-          </p>
+          </div>
         ))}
       </div>
       <div>Votre score : {getScore}</div>
