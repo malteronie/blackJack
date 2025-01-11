@@ -9,6 +9,7 @@ const Game = () => {
   //Initialiser les variables utilisant useState
   const [cards, setCards] = useState([])
   const [isStart, setStart] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
   const [result, setResult] = useState("")
   const [botHand, setBotHand] = useState([])
   const [botFinish, setBotFinish] = useState(false)
@@ -44,7 +45,7 @@ const Game = () => {
     setStart(true);   //La game a commencé
     setCards([getRandomCard(), getRandomCard()]); //Ajoute les cartes
     console.log(cards)
-    
+
     botGame()
   };
 
@@ -57,7 +58,7 @@ const Game = () => {
 
 //stay
   const stay = () => {
-    if (botFinish===true){  //Si bot a fini de jouer
+    if (botFinish===true){  //Si bot à fini de jouer
     
       const finalPlayerScore = getScore(cards); //Calculer le score final du joueur et du bot
       const finalBotScore = getScore(botHand);
@@ -151,6 +152,19 @@ const Game = () => {
     }
   }, [playerScore, botScore, isStart]);
 
+  useEffect(() => {
+    if (isStart) {      //Si la game est lancée
+      if (cards.length===2 && cards[0].value===cards[1].value){   //Que le joueur possède 2 carte
+         //et que les cartes sont de la même valeur
+          console.log(cards.length)
+          setIsSplited(true)   //isSplited pass true
+        
+      } else{
+        setIsSplited(false)
+      }
+    }
+  }, [cards, isStart]);
+
 
 //return
   return (
@@ -165,7 +179,7 @@ const Game = () => {
         <div className="action">
         
         </div>
-        <Hand cards={cards} getScore={playerScore} /><br />
+        <Hand cards={cards} getScore={playerScore} isFinished={isFinished}/><br />
 
       </div><br />
       

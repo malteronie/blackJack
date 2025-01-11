@@ -4,7 +4,7 @@ import "./App.css";
 
 const App = () => {
   return (
-    <header className="App-header" style={{"font-family": "Apple Chancery, cursive" }}>
+    <header className="App-header" style={{"fontFamily": "Apple Chancery, cursive" }}>
       <div className="App">
         <h1 style={{"fontSize":"88px", "marginTop":"0px" }}>BlackJack</h1>
         <Game />
