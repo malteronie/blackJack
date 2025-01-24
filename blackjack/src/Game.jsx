@@ -13,6 +13,7 @@ const Game = () => {
   const [result, setResult] = useState("")
   const [botHand, setBotHand] = useState([])
   const [botFinish, setBotFinish] = useState(false)
+  const [canBeSplited, setCanBeSplited] = useState(false)
   const [isSplited, setIsSplited] = useState(false)
 
 //botGame
@@ -77,14 +78,14 @@ const Game = () => {
         setResult("Égalité !");
       }
       setStart(false)  //Statut du jeu en non lancé
-      setIsSplited(false)
+      setCanBeSplited(false)
     }
   }
 
 //split
   const split = () => {
 
-    setIsSplited(false)
+    setCanBeSplited(false)
   }
 
 //getScore
@@ -157,10 +158,10 @@ const Game = () => {
       if (cards.length===2 && cards[0].value===cards[1].value){   //Que le joueur possède 2 carte
          //et que les cartes sont de la même valeur
           console.log(cards.length)
-          setIsSplited(true)   //isSplited pass true
+          setCanBeSplited(true)   //canBeSplited pass true
         
       } else{
-        setIsSplited(false)
+        setCanBeSplited(false)
       }
     }
   }, [cards, isStart]);
@@ -171,9 +172,9 @@ const Game = () => {
     <div className="game">
       {!isStart && <div>{result}</div>}
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
-      {isStart && <button onClick={() => hit()} className="button">Hit</button>}
-      {isStart && <button onClick={() => stay()} className="button">Stay</button>}
-      {isSplited && <button onClick={() => split()} className="button">Split</button>}
+      {isStart && <button onClick={hit} className="button">Hit</button>}
+      {isStart && <button onClick={stay} className="button">Stay</button>}
+      {canBeSplited && <button onClick={split} className="button">Split</button>}
       <div className="flex">
         <BotHand className="" cards={botHand} getScore={botScore} />
         <div className="action">
