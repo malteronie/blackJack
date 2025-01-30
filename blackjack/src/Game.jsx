@@ -1,6 +1,7 @@
 import React, { useState,useEffect} from "react"
 import Hand from "./Hand"
 import BotHand from "./BotHand"
+import Split from "./split";
 
 const Game = () => {
   const types = ["♠", "♥", "♦", "♣"]  //Variable pour valeur et type de carte
@@ -8,11 +9,16 @@ const Game = () => {
 
   //Initialiser les variables utilisant useState
   const [cards, setCards] = useState([])
+  const [firstSplit, setFirstSplit] = useState([])
+  const [secondSplit, setSecondSplit] = useState([])
+
   const [isStart, setStart] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
   const [result, setResult] = useState("")
+  
   const [botHand, setBotHand] = useState([])
   const [botFinish, setBotFinish] = useState(false)
+  
   const [canBeSplited, setCanBeSplited] = useState(false)
   const [isSplited, setIsSplited] = useState(false)
 
@@ -22,22 +28,11 @@ const Game = () => {
   setBotFinish(false) 
   };
 
-// Pour mode impossible
-  // const getBotCard = (score) => {
-  //   const type = types[Math.floor(Math.random() * types.length)];
-  //   if (score===1){
-  //     const value = "A";
-  //     return { value, type }
-  //   } else {
-  //     const value = score;
-  //     return { value, type }
-  //   }
-  // };
-
 //getRandomCard
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];  //Tire un type de carte au hasard
-    const value = values[Math.floor(Math.random() * values.length)]; //Une valeur de carte au hasard
+    // const value = values[Math.floor(Math.random() * values.length)]; //Une valeur de carte au hasard
+    const value = 10
     return { value, type }; //Retourne les props de la carte
   };
 
@@ -46,15 +41,18 @@ const Game = () => {
     setStart(true);   //La game a commencé
     setCards([getRandomCard(), getRandomCard()]); //Ajoute les cartes
     console.log(cards)
-
     botGame()
+    setFirstSplit([])
+    setSecondSplit([])
+    setIsSplited(false)
   };
 
 //hit
-  const hit = () => {
+  const hit = (card, setCard) => {
     if (botFinish===true){   //Si le bot a fini de jouer
-      setCards([...cards, getRandomCard()]);  //Ajoute une carte a la main du  joueur
+      setCard([...card, getRandomCard()]);  //Ajoute une carte a la main du  joueur
     }
+    console.log(cards[1])
   };
 
 //stay
@@ -84,8 +82,10 @@ const Game = () => {
 
 //split
   const split = () => {
-
+    setIsSplited(true)
     setCanBeSplited(false)
+    setFirstSplit([cards[0], getRandomCard()])
+    setSecondSplit([cards[1], getRandomCard()])
   }
 
 //getScore
@@ -118,22 +118,11 @@ const Game = () => {
 //const Score
   const botScore = getScore(botHand);
   const playerScore = getScore(cards);
+  const firstSplitScore = getScore(firstSplit);
+  const secondSplitScore= getScore(secondSplit);
 
 
 //useEffect
-
-// useEffect (() => {   //mode impossible
-//   if (getScore(botHand)<21 && isStart){
-//     const manque = 21 - getScore(botHand)
-//     setTimeout(() => {
-//       setBotHand([...botHand, getBotCard(manque)]);
-//     }, 1000);
-  
-//   } else {
-//     setBotFinish(true)
-//   }
-// }, [botScore, botHand, isStart])
-
   useEffect (() => {     //Mode soft
     if (getScore(botHand)<15 && isStart){   //Si le bot a - de 15
       setTimeout(() => {
@@ -145,6 +134,7 @@ const Game = () => {
     }
   }, [botScore, botHand, isStart])   //Dépendance pr useEffect
 
+  
   useEffect(() => {
     if (isStart) {      //Si la game est lancée
       if (playerScore > 21){   //Et que le joueur dépasse 21
@@ -170,19 +160,20 @@ const Game = () => {
 //return
   return (
     <div className="game">
+        <BotHand className="" cards={botHand} getScore={botScore} /><br /><br />
       {!isStart && <div>{result}</div>}
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
-      {isStart && <button onClick={hit} className="button">Hit</button>}
-      {isStart && <button onClick={stay} className="button">Stay</button>}
       {canBeSplited && <button onClick={split} className="button">Split</button>}
-      <div className="flex">
-        <BotHand className="" cards={botHand} getScore={botScore} />
-        <div className="action">
-        
-        </div>
-        <Hand cards={cards} getScore={playerScore} isFinished={isFinished}/><br />
-
-      </div><br />
+        {!isSplited && <div>
+          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} isStart={isStart}/><br />
+        </div>}
+        {isSplited && 
+          <div style={{'display' : 'flex'}}>
+            <Hand cards={firstSplit} getScore={firstSplitScore} setCard={setFirstSplit} hit={hit} stay={stay} isStart={isStart}/><br />
+            <Hand cards={secondSplit} getScore={secondSplitScore} setCard={setSecondSplit} hit={hit} stay={stay} isStart={isStart}/><br />
+          </div>
+        }
+      <br />
       
     </div>
   );

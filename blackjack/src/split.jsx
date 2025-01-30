@@ -1,23 +1,15 @@
 import React from "react";
-import Card from "./Card";
+import Hand from "./Hand";
 
 
-const Split = ({ cards, getScore }) => {
+const Split = ({ cards, getScore, isFinished, hit, stay, isStart }) => {
+  const splitCard1 = []
+
   return (
-    <div className="bot">
-    <div className="hand">
-      <h2>Your Hand</h2>
-      <div className="cards">
-        {cards.map((card) => (
-          <div style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}>
-            <Card value={card.value} type={card.type} />
-          </div>
-        ))}
-      </div>
-      <div>Votre score : {getScore}</div>
-    </div>
+    <div className="">
+      <Hand cards={cards} getScore={getScore} isFinished={isFinished} hit={hit} stay={stay} isStart={isStart}/>
     </div>
   );
 };
 
-export default Hand;
+export default Split;
