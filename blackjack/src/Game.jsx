@@ -21,6 +21,8 @@ const Game = () => {
   
   const [canBeSplited, setCanBeSplited] = useState(false)
   const [isSplited, setIsSplited] = useState(false)
+  const [startFirstSplit, setStartFirstSplit] = useState(false)
+  const [startSecondSplit, setStartSecondSplit] = useState(false)  
 
 //botGame
   const botGame = () => {
@@ -56,12 +58,13 @@ const Game = () => {
   };
 
 //stay
-  const stay = () => {
+  const stay = (card, setGame) => {
     if (botFinish===true){  //Si bot à fini de jouer
     
-      const finalPlayerScore = getScore(cards); //Calculer le score final du joueur et du bot
+      const finalPlayerScore = getScore(card); //Calculer le score final du joueur et du bot
       const finalBotScore = getScore(botHand);
-    
+      console.log(finalBotScore)
+      console.log(finalPlayerScore)
       if (finalPlayerScore > 21 && finalBotScore > 21) {   //Conditions de victoire ou défaite
         setResult("Égalité, vous avez tous les deux dépassé !");
       } else if (finalPlayerScore > 21) {
@@ -75,9 +78,10 @@ const Game = () => {
       } else {
         setResult("Égalité !");
       }
-      setStart(false)  //Statut du jeu en non lancé
+      setGame(false)  //Statut du jeu en non lancé
       setCanBeSplited(false)
     }
+    
   }
 
 //split
@@ -86,6 +90,8 @@ const Game = () => {
     setCanBeSplited(false)
     setFirstSplit([cards[0], getRandomCard()])
     setSecondSplit([cards[1], getRandomCard()])
+    setStartFirstSplit(true)
+    setStartSecondSplit(true)
   }
 
 //getScore
@@ -123,6 +129,13 @@ const Game = () => {
 
 
 //useEffect
+
+  useEffect (() => {     
+    if(!startFirstSplit && !startSecondSplit && isSplited){
+      setStart(false)
+    }
+  }, [startFirstSplit, startSecondSplit, isSplited])
+
   useEffect (() => {     //Mode soft
     if (getScore(botHand)<15 && isStart){   //Si le bot a - de 15
       setTimeout(() => {
@@ -138,7 +151,7 @@ const Game = () => {
   useEffect(() => {
     if (isStart) {      //Si la game est lancée
       if (playerScore > 21){   //Et que le joueur dépasse 21
-        stay()  //Appel de la fonction stay 
+        stay(cards, setStart)  //Appel de la fonction stay 
       }
     }
   }, [playerScore, botScore, isStart]);
@@ -161,16 +174,16 @@ const Game = () => {
   return (
     <div className="game">
         <BotHand className="" cards={botHand} getScore={botScore} /><br /><br />
-      {!isStart && <div>{result}</div>}
+      
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
       {canBeSplited && <button onClick={split} className="button">Split</button>}
         {!isSplited && <div>
-          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} isStart={isStart}/><br />
+          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} setGame={setStart} result={result} isStart={isStart}/><br />
         </div>}
         {isSplited && 
           <div style={{'display' : 'flex'}}>
-            <Hand cards={firstSplit} getScore={firstSplitScore} setCard={setFirstSplit} hit={hit} stay={stay} isStart={isStart}/><br />
-            <Hand cards={secondSplit} getScore={secondSplitScore} setCard={setSecondSplit} hit={hit} stay={stay} isStart={isStart}/><br />
+            <Hand cards={firstSplit} getScore={firstSplitScore} setCard={setFirstSplit} hit={hit} stay={stay} setGame={setStartFirstSplit} isStart={startFirstSplit} result={result}/><br />
+            <Hand cards={secondSplit} getScore={secondSplitScore} setCard={setSecondSplit} hit={hit} stay={stay} setGame={setStartSecondSplit} isStart={startSecondSplit} result={result}/><br />
           </div>
         }
       <br />
