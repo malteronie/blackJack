@@ -1,7 +1,6 @@
 import React, { useState,useEffect} from "react"
 import Hand from "./Hand"
 import BotHand from "./BotHand"
-import Split from "./split";
 
 const Game = () => {
   const types = ["♠", "♥", "♦", "♣"]  //Variable pour valeur et type de carte
@@ -13,8 +12,8 @@ const Game = () => {
   const [secondSplit, setSecondSplit] = useState([])
 
   const [isStart, setStart] = useState(false)
-  const [isFinished, setIsFinished] = useState(false)
   const [result, setResult] = useState("")
+  const [result2, setResult2] = useState("")
   
   const [botHand, setBotHand] = useState([])
   const [botFinish, setBotFinish] = useState(false)
@@ -58,7 +57,7 @@ const Game = () => {
   };
 
 //stay
-  const stay = (card, setGame) => {
+  const stay = (card, setGame, setMessage) => {
     if (botFinish===true){  //Si bot à fini de jouer
     
       const finalPlayerScore = getScore(card); //Calculer le score final du joueur et du bot
@@ -66,17 +65,17 @@ const Game = () => {
       console.log(finalBotScore)
       console.log(finalPlayerScore)
       if (finalPlayerScore > 21 && finalBotScore > 21) {   //Conditions de victoire ou défaite
-        setResult("Égalité, vous avez tous les deux dépassé !");
+        setMessage("Égalité, vous avez tous les deux dépassé !");
       } else if (finalPlayerScore > 21) {
-        setResult("Dommage, tu as perdu !");
+        setMessage("Dommage, tu as perdu !");
       } else if (finalBotScore > 21) {
-        setResult("Bravo, tu as gagné !!");
+        setMessage("Bravo, tu as gagné !!");
       } else if (finalPlayerScore > finalBotScore) {
-        setResult("Bravo, tu as gagné !!");
+        setMessage("Bravo, tu as gagné !!");
       } else if (finalPlayerScore < finalBotScore) {
-        setResult("Dommage, tu as perdu !");
+        setMessage("Dommage, tu as perdu !");
       } else {
-        setResult("Égalité !");
+        setMessage("Égalité !");
       }
       setGame(false)  //Statut du jeu en non lancé
       setCanBeSplited(false)
@@ -151,10 +150,18 @@ const Game = () => {
   useEffect(() => {
     if (isStart) {      //Si la game est lancée
       if (playerScore > 21){   //Et que le joueur dépasse 21
-        stay(cards, setStart)  //Appel de la fonction stay 
+        stay(cards, setStart, setResult)  //Appel de la fonction stay 
+      }
+      if (isSplited) {
+        if (firstSplitScore > 21){   //Et que le score du premier packet après le split > 21
+          stay(firstSplit, setStartFirstSplit, setResult)  //Appel de la fonction stay 
+        }
+        if (secondSplitScore > 21){   //Et que le score du second packet apres le split > 21
+          stay(secondSplit, setStartSecondSplit, setResult2)  //Appel de la fonction stay 
+        }
       }
     }
-  }, [playerScore, botScore, isStart]);
+  }, [playerScore, firstSplitScore, secondSplitScore, isStart]);
 
   useEffect(() => {
     if (isStart) {      //Si la game est lancée
@@ -178,12 +185,12 @@ const Game = () => {
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
       {canBeSplited && <button onClick={split} className="button">Split</button>}
         {!isSplited && <div>
-          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} setGame={setStart} result={result} isStart={isStart}/><br />
+          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} setGame={setStart} result={result} isStart={isStart} setText={setResult}/><br />
         </div>}
         {isSplited && 
           <div style={{'display' : 'flex'}}>
-            <Hand cards={firstSplit} getScore={firstSplitScore} setCard={setFirstSplit} hit={hit} stay={stay} setGame={setStartFirstSplit} isStart={startFirstSplit} result={result}/><br />
-            <Hand cards={secondSplit} getScore={secondSplitScore} setCard={setSecondSplit} hit={hit} stay={stay} setGame={setStartSecondSplit} isStart={startSecondSplit} result={result}/><br />
+            <Hand cards={firstSplit} getScore={firstSplitScore} setCard={setFirstSplit} hit={hit} stay={stay} setGame={setStartFirstSplit} isStart={startFirstSplit} result={result} setText={setResult}/><br />
+            <Hand cards={secondSplit} getScore={secondSplitScore} setCard={setSecondSplit} hit={hit} stay={stay} setGame={setStartSecondSplit} isStart={startSecondSplit} result={result2} setText={setResult2}/><br />
           </div>
         }
       <br />
