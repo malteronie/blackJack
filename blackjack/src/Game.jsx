@@ -32,8 +32,8 @@ const Game = () => {
 //getRandomCard
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];  //Tire un type de carte au hasard
-    // const value = values[Math.floor(Math.random() * values.length)]; //Une valeur de carte au hasard
-    const value = 10
+    const value = values[Math.floor(Math.random() * values.length)]; //Une valeur de carte au hasard
+    // const value = 10
     return { value, type }; //Retourne les props de la carte
   };
 
@@ -41,7 +41,6 @@ const Game = () => {
   const startGame = () => {
     setStart(true);   //La game a commencé
     setCards([getRandomCard(), getRandomCard()]); //Ajoute les cartes
-    console.log(cards)
     botGame()
     setFirstSplit([])
     setSecondSplit([])
@@ -53,7 +52,6 @@ const Game = () => {
     if (botFinish===true){   //Si le bot a fini de jouer
       setCard([...card, getRandomCard()]);  //Ajoute une carte a la main du  joueur
     }
-    console.log(cards[1])
   };
 
 //stay
@@ -183,7 +181,7 @@ const Game = () => {
         <BotHand className="" cards={botHand} getScore={botScore} /><br /><br />
       
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
-      {canBeSplited && <button onClick={split} className="button">Split</button>}
+      {canBeSplited && <button onClick={split} className="button">Split</button>}<br />
         {!isSplited && <div>
           <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} setGame={setStart} result={result} isStart={isStart} setText={setResult}/><br />
         </div>}
@@ -202,6 +200,5 @@ const Game = () => {
 export default Game;
 
 
-//split
 //mise
 //cacher la main du bot

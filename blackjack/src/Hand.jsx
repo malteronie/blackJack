@@ -12,7 +12,7 @@ const Hand = ({ cards, getScore, hit, stay, isStart, setCard, result, setGame, s
       <div className="cards">
         {cards.map((card) => (
           <div style={{ color: card.type === "♠" || card.type === "♣" ? "black" : "red" }}>
-            <Card  value={card.value} type={card.type} />
+            <Card style={{backgroundColor : 'blue'}} value={card.value} type={card.type} />
           </div>
         ))}
         
