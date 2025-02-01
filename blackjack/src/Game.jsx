@@ -178,7 +178,7 @@ const Game = () => {
 //return
   return (
     <div className="game">
-        <BotHand className="" cards={botHand} getScore={botScore} /><br /><br />
+        <center><BotHand className="" cards={botHand} getScore={botScore} /></center><br /><br />
       
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
       {canBeSplited && <button onClick={split} className="button">Split</button>}<br />
