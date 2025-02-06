@@ -3,7 +3,6 @@ import Card from "./Card";
 
 const Hand = ({ cards, getScore, hit, stay, isStart, setCard, result, setGame, setText}) => {
   return (
-    <div className="bot">
     <div className="hand">
     {isStart && <button onClick={() => hit(cards, setCard)} className="button">Hit</button>}
     {isStart && <button onClick={() => stay(cards, setGame, setText)} className="button">Stay</button>}
@@ -18,7 +17,6 @@ const Hand = ({ cards, getScore, hit, stay, isStart, setCard, result, setGame, s
         
       </div>
       <div>Votre score : {getScore}</div>
-    </div>
     </div>
   );
 };

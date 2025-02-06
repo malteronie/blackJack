@@ -41,19 +41,21 @@
   }
 }
 .card {
+  background-color: white;
+  border-radius: 20px;
   display: inline-block;
   border: 1px solid #000;
   font-size:10px;
-  padding: 10px;
   margin: 5px;
   width: 50px;
   text-align: center;
-  width: 126px;
-  height: 176px;
+  width: 138px;
+  height: 193px;
 }
 
 .hand {
-  margin: 20px;
+  width: 700px;
+  margin-top: 20px;
 }
 
 .cards {
@@ -72,11 +74,8 @@
   height: 50px;
 }
 
-.bot{
-  width: 700px;
-}
+
 .action{
-  margin-top: 20%;
   display: flex;
   flex-direction: column;
 }

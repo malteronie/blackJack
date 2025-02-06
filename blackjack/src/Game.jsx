@@ -178,12 +178,12 @@ const Game = () => {
 //return
   return (
     <div className="game">
-        <center><BotHand className="" cards={botHand} getScore={botScore} /></center><br /><br />
+        <center><BotHand className="" cards={botHand} getScore={botScore} /></center>
       
       {!isStart && <button onClick={startGame} className="button">Jouer</button>}
       {canBeSplited && <button onClick={split} className="button">Split</button>}<br />
         {!isSplited && <div>
-          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} setGame={setStart} result={result} isStart={isStart} setText={setResult}/><br />
+          <Hand cards={cards} getScore={playerScore} setCard={setCards} hit={hit} stay={stay} setGame={setStart} result={result} isStart={isStart} setText={setResult}/>
         </div>}
         {isSplited && 
           <div style={{'display' : 'flex'}}>
