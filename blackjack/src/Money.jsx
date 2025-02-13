@@ -5,10 +5,10 @@ const Money = ({montant, mise, lower, increase }) => {
  <div>
     <img src="/money.jpg" alt="" />
     <p>Montant : {montant}</p><br />
-    <div>
-        <p>Mise : {mise}</p>
-        <button onClick={lower}>-</button>
-        <button onClick={increase}>+</button>
+    <div className="miseDiv">
+        <button onClick={lower} className="mise">-</button>
+        <input type="number" className="mise" value={mise} name="mise"/>
+        <button onClick={increase} className="mise">+</button>
     </div>
  </div>
 )}

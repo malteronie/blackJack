@@ -61,26 +61,36 @@ const Game = () => {
 //stay
   const stay = (card, setGame, setMessage) => {
     if (botFinish===true){  //Si bot à fini de jouer
-    
+      
       const finalPlayerScore = getScore(card); //Calculer le score final du joueur et du bot
       const finalBotScore = getScore(botHand);
       console.log(finalBotScore)
       console.log(finalPlayerScore)
-      if (finalPlayerScore > 21 && finalBotScore > 21) {   //Conditions de victoire ou défaite
+      if (finalPlayerScore === 21 && cards.length===2) {   //Conditions de victoire ou défaite
+        setMessage("Bravo, tu as gagnédz !!");
+      } else if (finalPlayerScore > 21 && finalBotScore > 21) {   //Conditions de victoire ou défaite
         setMessage("Égalité, vous avez tous les deux dépassé !");
       } else if (finalPlayerScore > 21) {
         setMessage("Dommage, tu as perdu !");
+        setMontant(montant - mise)
       } else if (finalBotScore > 21) {
         setMessage("Bravo, tu as gagné !!");
+        setMontant(montant + mise)
       } else if (finalPlayerScore > finalBotScore) {
         setMessage("Bravo, tu as gagné !!");
+        setMontant(montant + mise)
       } else if (finalPlayerScore < finalBotScore) {
         setMessage("Dommage, tu as perdu !");
+        setMontant(montant - mise)
       } else {
         setMessage("Égalité !");
       }
-      setGame(false)  //Statut du jeu en non lancé
-      setCanBeSplited(false)
+
+      
+        setGame(false)  //Statut du jeu en non lancé
+        setCanBeSplited(false)
+      
+      
     }
     
   }
@@ -177,11 +187,14 @@ const Game = () => {
 
   useEffect(() => {
     if (isStart) {      //Si la game est lancée
+      if (playerScore === 21 && cards.length===2) {   //Conditions de victoire ou défaite
+        stay()
+      }
+
       if (cards.length===2 && cards[0].value===cards[1].value){   //Que le joueur possède 2 carte
          //et que les cartes sont de la même valeur
           console.log(cards.length)
           setCanBeSplited(true)   //canBeSplited pass true
-        
       } else{
         setCanBeSplited(false)
       }
