@@ -1,6 +1,7 @@
 import React, { useState,useEffect} from "react"
 import Hand from "./Hand"
 import BotHand from "./BotHand"
+import Money from "./Money"
 
 const Game = () => {
   const types = ["♠", "♥", "♦", "♣"]  //Variable pour valeur et type de carte
@@ -23,6 +24,8 @@ const Game = () => {
   const [startFirstSplit, setStartFirstSplit] = useState(false)
   const [startSecondSplit, setStartSecondSplit] = useState(false)  
 
+  const [montant, setMontant] = useState(500)
+  const [mise, setMise] = useState(1)
 //botGame
   const botGame = () => {
   setBotHand([getRandomCard(), getRandomCard()]);  //Ajoute les cartes à la main du joueur
@@ -45,6 +48,7 @@ const Game = () => {
     setFirstSplit([])
     setSecondSplit([])
     setIsSplited(false)
+    setMontant(500)
   };
 
 //hit
@@ -118,12 +122,22 @@ const Game = () => {
     return score;   //Retourner le score
   }
 
+  const lower = () => {
+    if (mise > 1){
+      setMise(mise - 1)
+    }
+  }
+  const increase = () => {
+    if (mise < montant){
+      setMise(mise + 1)
+    }
+  }
+
 //const Score
   const botScore = getScore(botHand);
   const playerScore = getScore(cards);
   const firstSplitScore = getScore(firstSplit);
   const secondSplitScore= getScore(secondSplit);
-
 
 //useEffect
 
@@ -191,8 +205,9 @@ const Game = () => {
             <Hand cards={secondSplit} getScore={secondSplitScore} setCard={setSecondSplit} hit={hit} stay={stay} setGame={setStartSecondSplit} isStart={startSecondSplit} result={result2} setText={setResult2}/><br />
           </div>
         }
+        
       <br />
-      
+      <Money increase={increase} lower={lower} montant={montant} mise={mise} />
     </div>
   );
 };
