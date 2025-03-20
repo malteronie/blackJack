@@ -1,13 +1,16 @@
 import React from "react";
-import Game from "./Game.jsx";
+import Game from "./blackJack/Game.jsx";
+import { useState } from "react";
+import Navbar from "./Component/Navbar/Navbar.jsx";
 import "./App.css";
-
+import Router from "./Component/Routes/Routes.jsx";
 const App = () => {
+
   return (
     <header className="App-header" style={{"fontFamily": "Apple Chancery, cursive" }}>
+        <Navbar/>
       <div className="App">
-        <h1 style={{"fontSize":"88px", "margin":"0px" }}>BlackJack</h1>
-        <Game />
+        <Router />
       </div>
     </header>
   );

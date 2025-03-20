@@ -12,15 +12,22 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
 .App-header {
-  background-image: url('fond-table.jpg');
+  background-image: url('fond_carte.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top; 
   font-family: "Apple Chancery, cursive";
   min-height: 100vh;
   display: flex;
+  padding-top: 70px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -73,22 +80,57 @@
   width: 110px;
   height: 50px;
 }
-
+.newButton{
+  width: 150px;
+  height: 100px;
+}
 
 .action{
   display: flex;
   flex-direction: column;
 }
-
-.text{
-  margin-top: 50%;
-  font-size: 50px;
+.mise {
+  display: flex;
+  align-items: center; /* Aligne les éléments verticalement au centre */
+  justify-content: center; /* Centre les éléments horizontalement */
 }
 
-.mise{
-  margin: 5px;
+.mise div {
+  display: flex;
+  align-items: center; /* Centrer les éléments dans le div */
+  justify-content: space-between; /* Écarte les éléments de manière égale */
+}
+
+.montant{
+  font-size: 30px;
+  height: 60px;
+  width: 60px;
+}
+
+.text {
+  margin-right: 2px;
+  margin-top: 50%;
+  font-size: 30px;
+  height: 60px;
+  width: 60px;
   text-align: center;
+}
+
+
+button.text {
   width: 50px;
   height: 50px;
-  font-size: 40px;
+  margin: 0 10px; /* Ajouter un peu d'espace entre les boutons */
+}
+
+.game{
+  display: flex;
+  flex-direction: row;
+}
+
+.card-back {
+  width: 60px;
+  height: 90px;
+  background-color: blue;
+  border-radius: 5px;
 }
