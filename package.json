@@ -5,10 +5,11 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js",
+        "start": "cd blackjack && npm start",
         "watch": "nodemon server.js",
         "react": "cd client && npm start",
-        "build": "cd blackjack && npm run build"
+        "build": "cd blackjack && npm run build",
+        "back": "cd backend && nodemon server.js"
     },
     "author": "",
     "license": "ISC",
