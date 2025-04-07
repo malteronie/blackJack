@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+  <script>
+    // Si la route n'est pas un fichier statique, rediriger vers /
+    const pathname = window.location.pathname;
+    const extension = pathname.split(".").pop();
+  
+    const isKnownFile = ["js", "css", "png", "jpg", "jpeg", "svg", "ico", "json"].includes(extension);
+    if (!isKnownFile && pathname !== "/" && !pathname.includes("index.html")) {
+      window.location.replace("/");
+    }
+  </script>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />

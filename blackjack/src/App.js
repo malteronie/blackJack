@@ -1,6 +1,4 @@
 import React from "react";
-import Game from "./blackJack/Game.jsx";
-import { useState } from "react";
 import Navbar from "./Component/Navbar/Navbar.jsx";
 import "./App.css";
 import Router from "./Component/Routes/Routes.jsx";

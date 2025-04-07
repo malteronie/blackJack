@@ -20,7 +20,7 @@
   z-index: 1000;
 }
 .App-header {
-  background-image: url('fond_casino.webp');
+  background-image: url('fond2.webp');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top; 
@@ -91,14 +91,14 @@
 }
 .mise {
   display: flex;
-  align-items: center; /* Aligne les éléments verticalement au centre */
-  justify-content: center; /* Centre les éléments horizontalement */
+  align-items: center; 
+  justify-content: center; 
 }
 
 .mise div {
   display: flex;
-  align-items: center; /* Centrer les éléments dans le div */
-  justify-content: space-between; /* Écarte les éléments de manière égale */
+  align-items: center;
+  justify-content: space-between; 
 }
 
 .montant{
@@ -120,7 +120,7 @@
 button.text {
   width: 50px;
   height: 50px;
-  margin: 0 10px; /* Ajouter un peu d'espace entre les boutons */
+  margin: 0 10px; 
 }
 
 .game{
