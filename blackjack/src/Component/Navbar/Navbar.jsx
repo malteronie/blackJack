@@ -4,9 +4,8 @@ import { isAuthenticated } from "../../Auth/utils/auth";
 function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
-    
     window.location.href = "/login"; 
-};
+  };
   return(
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light  d-flex justify-content-between">
@@ -15,14 +14,16 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
           {isAuthenticated() ? (
-                <>
+            <>
+
+            <a href="#/profil" style={{marginRight:"6px"}}>Profil</a>
                     <button onClick={handleLogout}>Déconnexion</button>
                 </>
             ) : (
-                <>
-                    <a href="#/login" style={{marginRight:"6px"}}>Connexion</a>
-                    <a href="#/register">Inscription</a>
-                </>
+              <>
+                <a href="#/login" style={{marginRight:"6px"}}>Connexion</a>
+                <a href="#/register">Inscription</a>
+              </>
             )}
           </ul>
         </div>

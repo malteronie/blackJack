@@ -17,7 +17,6 @@ function Register() {
         e.preventDefault();
         try {
             const response = await fetch(API_URL+"/api/auth/register", {
-                mode: 'no-cors',
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -33,7 +32,7 @@ function Register() {
                 alert("Erreur : " + "data.message");
             }
         } catch (error) {
-            console.error("Erreur:", "error");
+            console.error("Erreur:"+ "error");
             alert("erreur");
         }
     };
@@ -41,7 +40,7 @@ function Register() {
     return (
         <div>
             <div className="form">
-                <h1>Inscription</h1><br />
+                <h1>Inscriptions</h1><br />
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name">Name</label>
