@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
     nom: {
         type : String,
         require:true,
+    },
+    solde: {
+        type:Number,
+        default:5000
     }
 });
 

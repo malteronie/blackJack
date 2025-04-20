@@ -53,5 +53,9 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
+router.get('/me', authMiddleware, async (req, res) => {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "Utilisateur introuvable" });
+    res.json({ solde: user.solde });
+  });
 module.exports = router;

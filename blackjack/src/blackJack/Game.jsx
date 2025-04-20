@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BotHand from "./Cards/BotHand";
 import Hand from "./Cards/Hand";
 import Money from "./Money";
+import { API_URL } from "../services/config";
 
 const Game = () => {
   const types = ["♠", "♥", "♦", "♣"];
@@ -13,7 +14,7 @@ const Game = () => {
   const [playerFinished, setPlayerFinished] = useState(false);
   const [botFinished, setBotFinished] = useState(false);
   const [result, setResult] = useState("");
-  const [montant, setMontant] = useState(5000);
+  const [montant, setMontant] = useState(0);
   const [mise, setMise] = useState(1);
   const [actions, setActions] = useState([]);
 
@@ -117,6 +118,23 @@ const Game = () => {
     }
   }, [botFinished]);
   
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+  
+    fetch("http://localhost:8080/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.solde !== undefined) {
+        setMontant(data.solde);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (result) {
       const playerScore = getScore(cards);
@@ -149,11 +167,18 @@ const Game = () => {
           result: mappedResult,
           playerScore,
           dealerScore,
-          actions
+          actions,
+          mise
         })
       })
       .then(res => res.json())
-      .then(data => console.log("✅ Historique enregistré :", data))
+      .then(data => {
+        console.log("✅ Historique enregistré :", data);
+        if (data.solde !== undefined) {
+          setMontant(data.solde); // 🔁 mise à jour visuelle
+        }
+      })
+      
       .catch(err => console.error("❌ Erreur API historique :", err));
     }
   }, [result]);
