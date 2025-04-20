@@ -5,7 +5,6 @@ const User = require('../model/User')
 const router = express.Router()
 const authMiddleware = require('../middleware/authMiddleware')
 
-// const authMiddleware
 
 router.post('/register', async (req, res) => {
     try {
@@ -16,12 +15,16 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Utilisateur existe déjà' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, nom, password: hashedPassword });
+        const newUser = new User({
+            email,
+            nom,
+            password: hashedPassword,
+            solde: 5000
+          });
         console.log("pass recu")
         await newUser.save();
         console.log("user save")
         return res.status(200).json({ message: 'Inscription réussie' });
-        return res.redirect('/login');
         
     } catch (error) {
         console.error("Erreur dans /register:", error);
@@ -30,7 +33,6 @@ router.post('/register', async (req, res) => {
 });
 
 
-// User login
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -42,10 +44,10 @@ router.post('/login', async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Authentication failed' });
         }
-        const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-            expiresIn: '1h',
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: '1h'
         });
-        res.status(200).json({ token });
+        res.status(200).json({ token, userId: user._id });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }

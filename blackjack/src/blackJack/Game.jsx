@@ -15,6 +15,7 @@ const Game = () => {
   const [result, setResult] = useState("");
   const [montant, setMontant] = useState(5000);
   const [mise, setMise] = useState(1);
+  const [actions, setActions] = useState([]);
 
   const getRandomCard = () => {
     const type = types[Math.floor(Math.random() * types.length)];
@@ -24,7 +25,7 @@ const Game = () => {
 
   const startGame = () => {
     if (mise > montant) return;
-
+    setActions([]);
     setStart(true);
     setPlayerFinished(false);
     setBotFinished(false);
@@ -35,6 +36,7 @@ const Game = () => {
   };
 
   const hit = () => {
+    setActions(prev => [...prev, "Hit"]);
     const newHand = [...cards, getRandomCard()];
     setCards(newHand);
 
@@ -67,6 +69,7 @@ const Game = () => {
   };
 
   const stay = () => {
+    setActions(prev => [...prev, "Stay"]);
     setPlayerFinished(true);
   };
 
@@ -78,12 +81,12 @@ const Game = () => {
       setResult("Perdu 😭");
     } else if (botScore > 21 || playerScore > botScore) {
       setResult("Gagné 🎉");
-      setMontant((prev) => prev + mise * 2); // Correction du gain
+      setMontant((prev) => prev + mise * 2);
     } else if (playerScore < botScore) {
       setResult("Perdu 😭");
     } else {
       setResult("Égalité 🤝");
-      setMontant((prev) => prev + mise); // Correction du remboursement
+      setMontant((prev) => prev + mise);
     }
   };
 
@@ -94,13 +97,13 @@ const Game = () => {
           const currentScore = getScore(prevHand);
   
           if (currentScore >= 15) {
-            clearInterval(botPlay); // Stopper le bot
+            clearInterval(botPlay);
             setBotFinished(true);
             setStart(false);
-            return prevHand; // Ne pas piocher
+            return prevHand;
           }
   
-          return [...prevHand, getRandomCard()]; // Ajouter une carte si score < 15
+          return [...prevHand, getRandomCard()];
         });
       }, 1000);
   
@@ -114,6 +117,48 @@ const Game = () => {
     }
   }, [botFinished]);
   
+  useEffect(() => {
+    if (result) {
+      const playerScore = getScore(cards);
+      const dealerScore = getScore(botHand);
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        console.warn("Aucun token trouvé, utilisateur non authentifié.");
+        return;
+      }
+  
+      const mappedResult =
+        result === "Gagné 🎉" ? "win" :
+        result === "Perdu 😭" ? "lose" : "draw";
+  
+      console.log("📤 Envoi historique :", {
+        result: mappedResult,
+        playerScore,
+        dealerScore,
+        actions
+      });
+  
+      fetch("http://localhost:8080/api/game/history", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          result: mappedResult,
+          playerScore,
+          dealerScore,
+          actions
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log("✅ Historique enregistré :", data))
+      .catch(err => console.error("❌ Erreur API historique :", err));
+    }
+  }, [result]);
+
+
   return (
     <div>
       <p>{result}</p>

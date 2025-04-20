@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
       type: String,
       required: true,
       unique: true,
-      trim: true, // Enlève les espaces avant et après l'email
+      trim: true,
    },
    password : {
         type:String,

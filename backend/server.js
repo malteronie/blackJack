@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoute = require('./route/auth')
+const gameRoute = require("./route/game");
 require('dotenv').config();
-
 const app = express();
-const port = process.env.PORT|| 5000;
+const port = process.env.PORT|| 8080;
 app.use(express.json());
 app.use(cors({
   origin: "*",
@@ -16,8 +16,8 @@ app.use(cors({
   credentials: true
 }));
 app.use("/api/auth", authRoute)
+app.use("/api/game", gameRoute);
 
-// Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

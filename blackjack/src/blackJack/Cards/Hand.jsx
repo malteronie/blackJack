@@ -2,7 +2,6 @@ import React from "react";
 import Card from "./Card";
 
 const Hand = ({ cards, getScore, hit, stay, isStart, setCard, result, setGame, setText }) => {
-  // const score = getScore(cards); // Appelle la fonction correctement
 
   return (
     <div className="hand">

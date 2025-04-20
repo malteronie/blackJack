@@ -40,7 +40,7 @@ function Register() {
     return (
         <div>
             <div className="form">
-                <h1>Inscriptions</h1><br />
+                <h1>Inscription</h1><br />
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name">Name</label>
