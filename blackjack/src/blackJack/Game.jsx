@@ -14,7 +14,7 @@ const Game = () => {
   const [playerFinished, setPlayerFinished] = useState(false);
   const [botFinished, setBotFinished] = useState(false);
   const [result, setResult] = useState("");
-  const [montant, setMontant] = useState(0);
+  const [montant, setMontant] = useState(5000);
   const [mise, setMise] = useState(1);
   const [actions, setActions] = useState([]);
 
@@ -124,7 +124,7 @@ const Game = () => {
     const token = localStorage.getItem("token");
     if (!token) return;
   
-    fetch("http://localhost:8080/api/auth/me", {
+    fetch(API_URL+"/api/auth/me", {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -157,7 +157,7 @@ const Game = () => {
         actions
       });
   
-      fetch("http://localhost:8080/api/game/history", {
+      fetch(API_URL+"/api/game/history", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,7 +175,7 @@ const Game = () => {
       .then(data => {
         console.log("✅ Historique enregistré :", data);
         if (data.solde !== undefined) {
-          setMontant(data.solde); // 🔁 mise à jour visuelle
+          setMontant(data.solde);
         }
       })
       

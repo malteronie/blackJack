@@ -26,7 +26,7 @@ function Login() {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userId", data.userId);
                 alert("Connexion réussie !");
-                window.location.href = "/black-jack"; 
+                window.location.href = "/black-jack/index.html"; 
             }
             else {
                 alert("Erreur : " + data.message);
@@ -38,23 +38,37 @@ function Login() {
     };
 
     return (
-        <div>
-            <div className="form">
-                <h1>Connexion</h1><br />
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="email">Email</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-                    </div>
-                    <button type="submit">Se connecter</button>
-                </form>
-            </div>
+        <div className="login-container">
+          <div className="form">
+            <h1>Connexion</h1>
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={formData.email} 
+                  onChange={handleChange} 
+                  required 
+                />
+              </div>
+      
+              <div className="form-group">
+                <label htmlFor="password">Mot de passe</label>
+                <input 
+                  type="password" 
+                  name="password" 
+                  value={formData.password} 
+                  onChange={handleChange} 
+                  required 
+                />
+              </div>
+      
+              <button type="submit" className="submit-button">Se connecter</button>
+            </form>
+          </div>
         </div>
-    );
+      );
 }
 
 export default Login;

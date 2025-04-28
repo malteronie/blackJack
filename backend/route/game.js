@@ -20,7 +20,6 @@ router.post("/history", authMiddleware, async (req, res) => {
   
       await game.save();
   
-      // 🔥 C’est ici que tu modifies le solde :
       if (result === "win") {
         user.solde += mise * 2;
       } else if (result === "draw") {
@@ -28,16 +27,15 @@ router.post("/history", authMiddleware, async (req, res) => {
       } else if (result === "lose") {
         user.solde -= mise
       }
-      // Si "lose", la mise est déjà retirée côté frontend
   
-      await user.save(); // 💾 Et là que c’est enregistré dans MongoDB
+      await user.save();
   
       res.status(201).json({ message: "Historique enregistré", solde: user.solde });
     } catch (err) {
     }
   });
 
-router.get("/history/:player", async (req, res) => {
+  router.get("/history/:player", authMiddleware, async (req, res) => {
     try {
         const history = await GameHistory.find({ user: req.params.player }).sort({ date: -1 });
         res.json(history);

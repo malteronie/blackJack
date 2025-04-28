@@ -14,7 +14,7 @@ const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
-    <Sentry.ErrorBoundary fallback={<p>Une erreur est survenue 🧨</p>}>
+    <Sentry.ErrorBoundary fallback={<p>Une erreur est survenue</p>}>
       <App />
     </Sentry.ErrorBoundary>
   </React.StrictMode>

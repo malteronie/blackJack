@@ -4,8 +4,9 @@
     background: grey;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    max-width: 900px;
+    max-width: 100%; /* Ajuste la largeur max pour être plus flexible */
     margin: 0 auto;
+    overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
 }
 
 .history-container h2 {
@@ -18,6 +19,7 @@
     width: 100%;
     border-collapse: collapse;
     background-color: #282c34;
+    table-layout: fixed;
 }
 
 .history-table th,
@@ -25,6 +27,10 @@
     padding: 12px;
     border: 1px solid #ddd;
     text-align: center;
+    word-wrap: break-word;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .history-table th {
@@ -39,4 +45,42 @@
 
 .history-table tr:hover {
     background-color: black;
+}
+
+@media (max-width: 768px) {
+    .history-container {
+        padding: 1rem; 
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 8px;
+    }
+
+    .history-table {
+        font-size: 14px;
+    }
+
+    .history-container h2 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .history-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .history-table th,
+    .history-table td {
+        display: inline-block;
+        padding: 10px;
+        text-align: left;
+        width: auto;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }

@@ -110,10 +110,10 @@
   display: flex;
   flex-direction: column;
 }
-.mise {
+.mise > div {
   display: flex;
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
+  gap: 10px;
 }
 
 .mise div {
@@ -154,4 +154,40 @@ button.text {
   height: 90px;
   background-color: blue;
   border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .game {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hand {
+    width: 90%;
+  }
+
+  .card {
+    width: 80px;
+    height: 110px;
+    font-size: 8px;
+  }
+
+  .button, .newButton {
+    width: 80%;
+    max-width: 200px;
+    height: 50px;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .mise div {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .montant, .text {
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+  }
 }

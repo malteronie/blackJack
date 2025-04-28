@@ -1,22 +1,39 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./css/history.css";
+import { API_URL } from "../services/config";
+
 
 function History() {
     const [history, setHistory] = useState([]);
     const userId = localStorage.getItem("userId");
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!userId) return;
-
-        fetch(`http://localhost:8080/api/game/history/${userId}`)
-            .then(res => res.json())
+        if (!userId) {
+            navigate("/login");
+            return;
+        }
+    
+        fetch(API_URL+`/game/history/${userId}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => {
+                if (res.status === 401) {
+                    navigate("/login");
+                } else {
+                    return res.json();
+                }
+            })
             .then(data => setHistory(data))
             .catch(err => console.error(err));
-    }, [userId]);
+    }, [userId, navigate]);
 
     return (
         <div className="history-container">
-          <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button>;
+            <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button>
 
             <h2>🃏 Historique des Parties</h2>
             {history.length > 0 ? (
