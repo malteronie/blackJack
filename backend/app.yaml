@@ -4,6 +4,7 @@ instance_class: F1
 env_variables:
   MONGO_URI: "mongodb+srv://admin:administrateur@cluster0.zeo6am4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   JWT_SECRET: "monSuperSecretToken"
+  JWT_REFRESH_SECRET: "monAutreSuperSecretToken"
   PORT: 8080
 
 

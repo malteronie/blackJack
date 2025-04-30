@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import '../connexion/style.css';
 import { API_URL } from "../../services/config";
-import { useNavigate } from "react-router-dom";
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -9,33 +8,42 @@ function Register() {
         email: "",
         password: ""
     });
-    const navigate = useNavigate
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // Validation mot de passe fort
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        return regex.test(password);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validatePassword(formData.password)) {
+            alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial (@$!%*#?&)");
+            return;
+        }
+
         try {
-            const response = await fetch(API_URL+"/api/auth/register", {
+            const response = await fetch(API_URL + "/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
-            console.log(response)
             const data = await response.json();
-            console.log(data)
+
             if (response.ok) {
-                
-                console.log('test')
                 alert("Inscription réussie !");
-                navigate('/login');
+                window.location.href = "/black-jack/index.html#/login";
             } else {
-                alert("Erreur : " + "data.message");
+                alert("Erreur : " + data.message);
             }
         } catch (error) {
-            console.error("Erreur:"+ "error");
-            alert("erreur");
+            console.error("Erreur:", error);
+            alert("Erreur lors de l'inscription.");
         }
     };
 

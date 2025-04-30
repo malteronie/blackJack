@@ -78,16 +78,16 @@ const Game = () => {
     const playerScore = getScore(cards);
     const botScore = getScore(botHand);
 
-    if (playerScore > 21) {
-      setResult("Perdu 😭");
+    if (playerScore > 21 && botScore > 21) {
+      setResult("Égalité 🤝");  // Si les deux dépassent 21, c'est une égalité
+    } else if (playerScore > 21) {
+      setResult("Perdu 😭");  // Si le joueur dépasse 21, il perd
     } else if (botScore > 21 || playerScore > botScore) {
-      setResult("Gagné 🎉");
-      setMontant((prev) => prev + mise * 2);
+      setResult("Gagné 🎉");  // Si le bot dépasse 21 ou le joueur a un meilleur score
     } else if (playerScore < botScore) {
-      setResult("Perdu 😭");
+      setResult("Perdu 😭");  // Si le bot a un meilleur score
     } else {
-      setResult("Égalité 🤝");
-      setMontant((prev) => prev + mise);
+      setResult("Égalité 🤝");  // Si les scores sont égaux
     }
   };
 
@@ -97,7 +97,7 @@ const Game = () => {
         setBotHand((prevHand) => {
           const currentScore = getScore(prevHand);
   
-          if (currentScore >= 15) {
+          if (currentScore >=2) {
             clearInterval(botPlay);
             setBotFinished(true);
             setStart(false);
@@ -187,7 +187,7 @@ const Game = () => {
   return (
     <div>
       <p>{result}</p>
-
+<center>
       <Money
         increase={() => setMise(mise + 1)}
         isStart={isStart}
@@ -195,7 +195,7 @@ const Game = () => {
         montant={montant}
         mise={mise}
         setMise={setMise}
-      />
+      /></center>
       {(!isStart || (playerFinished && botFinished)) && (
         <button onClick={startGame} className="newButton">Nouvelle Partie</button>
       )}

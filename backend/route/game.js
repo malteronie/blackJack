@@ -19,13 +19,12 @@ router.post("/history", authMiddleware, async (req, res) => {
       });
   
       await game.save();
-  
+      user.solde -= mise;
+
       if (result === "win") {
-        user.solde += mise * 2;
+        user.solde += mise * 2; // gain net = +10 (si mise = 10)
       } else if (result === "draw") {
-        user.solde += mise;
-      } else if (result === "lose") {
-        user.solde -= mise
+        user.solde += mise;     // on rend la mise seulement
       }
   
       await user.save();
@@ -36,13 +35,17 @@ router.post("/history", authMiddleware, async (req, res) => {
   });
 
   router.get("/history/:player", authMiddleware, async (req, res) => {
+    console.log("Received request for game history for user:", req.params.player); // Log pour vérifier l'appel
     try {
         const history = await GameHistory.find({ user: req.params.player }).sort({ date: -1 });
+        console.log("History retrieved:", history); // Log pour vérifier l'historique récupéré
         res.json(history);
     } catch (err) {
-        res.status(500).json({ message: "Erreur serveur" });
+        console.error("Error retrieving history:", err); // Log d'erreur
+        res.status(500).json({ message: "Erreur serveur", error: err.message });
     }
 });
+
 
 
 

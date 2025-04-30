@@ -25,12 +25,14 @@ const Money = ({ montant, mise, lower, increase, setMise, isStart }) => {
         max={montant}
         disabled={montant === 0}
       />
+      {montant === 0 && <p style={{ color: 'red' }}>Vous n'avez plus d'argent pour miser.</p>}
+
       <button className="text" onClick={increase} disabled={mise >= montant}>+</button>
     </>
   }
 
-  {isStart && <div>Mise en jeu : {mise}</div>}
 </div>
+{isStart && <div className="mise-en-jeu">Mise en jeu : {mise}</div>}
       </div>
     </div>
   );

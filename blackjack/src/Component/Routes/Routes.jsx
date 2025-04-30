@@ -1,12 +1,11 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router";
+import {Routes, Route, HashRouter } from "react-router";
 import Login from "../../Auth/connexion/Login";
 import Register from "../../Auth/inscription/Register";
-import Profil from "../../Auth/Profil/Profil";
 import Game from "../../blackJack/Game";
 import History from "../../blackJack/History";
 
- function Router(){
+function Router(){
     return (
         <div>
             <HashRouter>

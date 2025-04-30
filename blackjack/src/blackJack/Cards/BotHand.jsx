@@ -4,7 +4,7 @@ import Card from "./Card";
 const BotHand = ({ cards, getScore, isFinished }) => {
   return (
     <div className="hand">
-      <h2>Bot Hand</h2>
+      <h2>Dealer's Hand</h2>
       <div className="cards">
         {cards.map((card, index) => (
           <div

@@ -11,6 +11,6 @@ module.exports = (req, res, next) => {
         req.user = { id: decoded.userId, email: decoded.email }; 
         next();
     } catch (error) {
-        res.status(400).json({ message: "Token invalide." });
+        res.status(400).json({ message: "Veuillez vous reconnecter" });
     }
 };
