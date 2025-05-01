@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoute = require('./route/auth')
 const gameRoute = require("./route/game");
+const adminRoute = require("./route/admin");
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT|| 8080;
@@ -15,6 +16,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+app.use('/api/admin', adminRoute);
 app.use("/api/auth", authRoute)
 app.use("/api/game", gameRoute);
 
@@ -30,9 +32,7 @@ app.listen(port, () => {
   console.log(`Serveur démarré sur http://localhost:${port}`);
 });
 
-//class-validator 
-//class-transformer
-//reflect-metadata
+
 
 //Fonction Drag and drop image :
  

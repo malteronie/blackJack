@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
 const User = require('../model/User')
 const router = express.Router()
-const authMiddleware = require('../middleware/authMiddleware')
+const { authenticate } = require('../middleware/authMiddleware');
 
 
 router.post('/register', async (req, res) => {
@@ -45,24 +45,41 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ error: 'Authentication failed' });
         }
+
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Authentication failed' });
         }
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: '1y'
+
+        // ✅ On inclut maintenant aussi le rôle dans le token
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                email: user.email,
+                role: user.role // <-- important pour le middleware isAdmin
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '1y' // <-- token expire dans 1 an
+            }
+        );
+
+        res.status(200).json({
+            token,
+            userId: user._id,
+            role: user.role // <-- utile côté frontend aussi
         });
-        res.status(200).json({ token, userId: user._id });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }
 });
 
-router.get('/me', authMiddleware, async (req, res) => {
+router.get('/me', authenticate, async (req, res) => {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "Utilisateur introuvable" });
     res.json({ solde: user.solde });

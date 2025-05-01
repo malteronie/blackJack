@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
         type : String,
         require:true,
     },
+    role: { 
+        type: String, 
+        enum: ["user", "admin"],
+        default: 'user' },
     solde: {
         type:Number,
         default:5000
