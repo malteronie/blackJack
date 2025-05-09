@@ -25,6 +25,7 @@ function Login() {
             if (response.ok) {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userId", data.userId);
+                localStorage.setItem("role", data.role);
                 alert("Connexion réussie !");
                 window.location.href = "/black-jack/index.html"; 
             }

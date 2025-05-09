@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.blackjack{
+  font-size: 60px;
+  text-decoration: underline;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -128,15 +133,15 @@
   width: 60px;
 }
 
-.text {
-  margin-right: 2px;
-  margin-top: 50%;
-  font-size: 30px;
-  height: 60px;
-  width: 60px;
-  text-align: center;
+.mise-button{
+  margin: 10px;
+  align-items: center;
 }
 
+.text {
+  margin-top: 50%;
+  font-size: 30px;
+}
 
 button.text {
   width: 50px;
@@ -157,23 +162,44 @@ button.text {
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding-left: 10px;  
+    padding-right: 10px; 
+  }
+
+  .navbar-toggler {
+    margin-right: 0; 
+  }
+
+  .navbar-nav {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .navbar-collapse {
+    width: 100%;
+    overflow-x: hidden; 
+  }
+
   .game {
+    width: 100%;
     flex-direction: column;
     align-items: center;
+    padding: 0 10px;
   }
 
   .hand {
-    width: 90%;
+    width: 90%; 
   }
 
   .card {
-    width: 80px;
-    height: 110px;
+    width: 60px; 
+    height: 90px;
     font-size: 8px;
   }
 
   .button, .newButton {
-    width: 80%;
+    width: 80%; 
     max-width: 200px;
     height: 50px;
     margin: 10px 0;
@@ -200,3 +226,13 @@ button.text {
   margin-top: 10px;
   color: white;
 }
+
+
+/* tableau pour historique 
+centrer les cartes et les boutons 
+montant et mise pour jouerus non co 
+mette blackjack 
+
+
+
+*/

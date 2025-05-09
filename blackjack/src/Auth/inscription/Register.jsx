@@ -13,7 +13,6 @@ function Register() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Validation mot de passe fort
     const validatePassword = (password) => {
         const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
         return regex.test(password);

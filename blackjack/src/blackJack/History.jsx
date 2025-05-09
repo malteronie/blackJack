@@ -5,9 +5,12 @@ import { API_URL } from "../services/config";
 
 function History() {
     const [history, setHistory] = useState([]);
+    const role = localStorage.getItem("role");
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate();
-
+    const handleAdminClick = () => {
+        window.location.href = "/black-jack/index.html#/users";
+    };
     useEffect(() => {
         if (!userId) {
             window.location.href = "/black-jack/index.html#/login";
@@ -31,13 +34,12 @@ function History() {
                     setHistory(data);
                 } else {
                     console.error("Données inattendues :", data);
-                    setHistory([]); // ou gérer différemment
+                    setHistory([]);
                 }
             })
             .catch(err => console.error(err));
     }, [userId, navigate]);
 
-    // Calcul des totaux et pourcentage de victoires
     const totalGames = history.length;
     const totalWins = history.filter(game => game.result === "win").length;
     const totalLosses = history.filter(game => game.result === "lose").length;
@@ -47,6 +49,11 @@ function History() {
 
     return (
         <div className="history-container">
+            {role === "admin" && (
+        <button onClick={handleAdminClick} className="admin-button">
+        🔧 Gérer les utilisateurs
+        </button>
+        )}
             <h2>🃏 Historique des Parties</h2>
 
             {/* Affichage des totaux et du pourcentage */}

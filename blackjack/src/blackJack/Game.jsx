@@ -78,16 +78,16 @@ const Game = () => {
     const playerScore = getScore(cards);
     const botScore = getScore(botHand);
 
-    if (playerScore > 21 && botScore > 21) {
-      setResult("Égalité 🤝");  // Si les deux dépassent 21, c'est une égalité
-    } else if (playerScore > 21) {
-      setResult("Perdu 😭");  // Si le joueur dépasse 21, il perd
+    if (playerScore > 21) {
+      setResult("Perdu"); 
     } else if (botScore > 21 || playerScore > botScore) {
-      setResult("Gagné 🎉");  // Si le bot dépasse 21 ou le joueur a un meilleur score
+      setResult("Gagné");  
+      setMontant(montant+(mise*2))
     } else if (playerScore < botScore) {
-      setResult("Perdu 😭");  // Si le bot a un meilleur score
+      setResult("Perdu"); 
     } else {
-      setResult("Égalité 🤝");  // Si les scores sont égaux
+      setResult("Égalité");
+      setMontant(montant+mise)
     }
   };
 
@@ -97,7 +97,7 @@ const Game = () => {
         setBotHand((prevHand) => {
           const currentScore = getScore(prevHand);
   
-          if (currentScore >=2) {
+          if (currentScore >=16) {
             clearInterval(botPlay);
             setBotFinished(true);
             setStart(false);
@@ -147,8 +147,8 @@ const Game = () => {
       }
   
       const mappedResult =
-        result === "Gagné 🎉" ? "win" :
-        result === "Perdu 😭" ? "lose" : "draw";
+        result === "Gagné" ? "win" :
+        result === "Perdu" ? "lose" : "draw";
   
       console.log("📤 Envoi historique :", {
         result: mappedResult,
