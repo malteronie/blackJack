@@ -185,7 +185,16 @@ const Game = () => {
 
 
   return (
-    <div>
+    <div><h1 style={{
+      textAlign: "center",
+      fontFamily: "cursive",
+      fontSize: "3rem",
+      margin: "20px 0",
+      textShadow: "2px 2px 4px rgba(0,0,0,0.5)"
+    }}>
+      Black Jack
+    </h1>
+    <div className="jeu">
       <p>{result}</p>
 <center>
       <Money
@@ -216,7 +225,7 @@ const Game = () => {
 
       <Hand cards={cards} getScore={getScore(cards)} />
 
-
+      </div>
     </div>
     </div>
   );

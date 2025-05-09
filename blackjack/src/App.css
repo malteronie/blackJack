@@ -45,6 +45,9 @@
   width: 100%;
   z-index: 1000;
 }
+.jeu{
+  margin-top: 5%;
+}
 .App-header {
   background-image: url('test.jpg');
   background-repeat: no-repeat;
@@ -56,7 +59,7 @@
   padding-top: 70px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -105,6 +108,7 @@
 .button{
   width: 110px;
   height: 50px;
+  margin-right: 1px;
 }
 .newButton{
   width: 150px;
@@ -115,10 +119,9 @@
   display: flex;
   flex-direction: column;
 }
-.mise > div {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+
+.mis{
+  line-height: 0.2;
 }
 
 .mise div {
