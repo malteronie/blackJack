@@ -30,7 +30,7 @@ function Login() {
                 window.location.href = "/black-jack/index.html"; 
             }
             else {
-                alert("Erreur : " + data.message);
+                alert("Erreur : " + "Email ou mot de passe incorrect");
             }
         } catch (error) {
             console.error("Erreur:", error);

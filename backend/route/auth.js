@@ -56,23 +56,22 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Authentication failed' });
         }
 
-        // ✅ On inclut maintenant aussi le rôle dans le token
         const token = jwt.sign(
             {
                 userId: user._id,
                 email: user.email,
-                role: user.role // <-- important pour le middleware isAdmin
+                role: user.role
             },
             process.env.JWT_SECRET,
             {
-                expiresIn: '1y' // <-- token expire dans 1 an
+                expiresIn: '1y'
             }
         );
 
         res.status(200).json({
             token,
             userId: user._id,
-            role: user.role // <-- utile côté frontend aussi
+            role: user.role
         });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
